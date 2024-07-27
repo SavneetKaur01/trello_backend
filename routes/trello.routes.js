@@ -1,3 +1,6 @@
+const validate = require("../middleware/validate");
+const { createBoardSchema, createListSchema, createCardSchema } = require("../schemas/trelloSchemas");
+
 module.exports = app => {
     const board = require("../controllers/BoardController.js");
     const list = require("../controllers/ListsController.js");
@@ -8,7 +11,8 @@ module.exports = app => {
     var router = require("express").Router();
   
     // Create a new Board
-    router.post("/", board.create);
+    // router.post("/", board.create);
+    router.post("/", validate(createBoardSchema), board.create);
   
     // Display Boards
     router.get("/", board.getAll);
@@ -17,7 +21,9 @@ module.exports = app => {
     router.get("/lists/:boardId/:boardName",list.getAllLists);
 
     //Create a new list
-    router.post("/lists/:boardId",list.createList);
+    // router.post("/lists/:boardId",list.createList);
+    router.post("/lists/:boardId", validate(createListSchema), list.createList);
+
 
     //Delete a list
     router.delete("/lists/:listId",list.deleteList);
@@ -26,7 +32,9 @@ module.exports = app => {
     router.get("/card/:listId", card.getAllCards);
 
     //Create a new card
-    router.post("/card/:listId",card.createCard);
+    // router.post("/card/:listId",card.createCard);
+    router.post("/card/:listId", validate(createCardSchema), card.createCard);
+
 
     //Delete a card
     router.delete("/card/:cardId",card.deleteCard);

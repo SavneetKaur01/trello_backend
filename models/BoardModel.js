@@ -14,13 +14,13 @@ Board.createBoard = (newBoard, result) => {
         }
 
         console.log("created board:", {id:res.insertId, ...newBoard}); //The res object is the response from the SQL query execution. res.insertId is a property in the response object that contains the ID of the newly inserted row.
-        result(null, {id:res.insertId, ...newBoard})
+        result(null, {boardId:res.insertId, ...newBoard})
     });
 
 }
 
 Board.getAllBoards = (result)=>{
-    console.log("Hi Savi");
+    // console.log("Hi Savi");
     sql.query(`SELECT * FROM boards`,(err,res)=>{
 
         if(err){
